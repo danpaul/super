@@ -1,5 +1,18 @@
 <h1>Listing products</h1>
 
+<% if admin_signed_in? %>
+  <li>
+    currently logged in as <%= @admin.email %>
+    <%= link_to('logout', destroy_admin_session_path, :method => :delete) %>
+  </li>
+<% else %>
+  <li>
+    <%= link_to('login', new_admin_session_path)  %>
+    or
+    <%= link_to('sign up', new_admin_registration_path)  %>
+  </li>
+<% end %>
+
 <table>
   <thead>
     <tr>

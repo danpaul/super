@@ -1,9 +1,10 @@
 class AdminController < ApplicationController
-  before_filter :authenticate_admin!  
+  before_filter :authenticate_admin!
   # GET /admin/products
   # GET /products.json
   def index
     @products = Product.all
+    @admin = current_admin
   end
 
   # GET /products/1
