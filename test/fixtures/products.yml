@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  price: 1.5
+  in_stock: false
+  inventory: 1
+  weight: 1.5
+  width: 1.5
+  height: 1.5
+  name: MyString
+  description: MyText
+  expires: 2013-08-10
+
+two:
+  price: 1.5
+  in_stock: false
+  inventory: 1
+  weight: 1.5
+  width: 1.5
+  height: 1.5
+  name: MyString
+  description: MyText
+  expires: 2013-08-10

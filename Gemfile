@@ -43,3 +43,9 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+
+#############################################################################
+# project specifc
+
+gem 'devise', '~> 3.0'
