@@ -1,4 +1,6 @@
 Super::Application.routes.draw do
+  resources :cart_items
+
   devise_for :admins
   resources :products
 

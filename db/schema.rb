@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130810211112) do
+ActiveRecord::Schema.define(version: 20130811153013) do
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -35,17 +35,17 @@ ActiveRecord::Schema.define(version: 20130810211112) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
 
-  create_table "cart", force: true do |t|
+  create_table "cart_items", force: true do |t|
     t.integer  "user_id"
+    t.string   "session_id"
+    t.integer  "product_id"
+    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "quantity"
   end
 
-  create_table "cart_items", force: true do |t|
-    t.integer "cart_id"
-    t.integer "quantity", default: 1
-    t.integer "status"
-  end
+  add_index "cart_items", ["session_id"], name: "index_cart_items_on_session_id"
 
   create_table "products", force: true do |t|
     t.float    "price"
