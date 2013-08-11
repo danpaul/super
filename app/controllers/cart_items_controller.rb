@@ -24,8 +24,6 @@ class CartItemsController < ApplicationController
   # POST /cart_items
   # POST /cart_items.json
   def create
-#what if there are not cookies/sessions?
-#validate session id
 
 
     item = {}
@@ -38,7 +36,10 @@ class CartItemsController < ApplicationController
     if(user)
       item[:user_id] = user.id
     end
-
+    item[:product_id] = params['product_id']
+    item[:status] = CartItem::STATUS_IN_CART
+#if item is currently in cart, update it
+  #(if session and product id match)
     @new_item = CartItem.create(item);
 
     render inline:
