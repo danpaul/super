@@ -24,23 +24,17 @@ class CartItemsController < ApplicationController
   # POST /cart_items
   # POST /cart_items.json
   def create
+    @new_item = nil
 
-
-    item = {}
-    user = current_user;
-
-    if(session)
-      item[:session_id] = session['session_id']
+    if(current_user)
+      @new_item = current_user.cart_items.find_or_create_by(product_id: params['product_id'])
+    else
+      @new_item = CartItem.find_or_create_by(session_id: session['session_id'], product_id: params['product_id'])
     end
-    item[:quantity] = params['quantity'].to_i
-    if(user)
-      item[:user_id] = user.id
-    end
-    item[:product_id] = params['product_id']
-    item[:status] = CartItem::STATUS_IN_CART
-#if item is currently in cart, update it
-  #(if session and product id match)
-    @new_item = CartItem.create(item);
+
+    @new_item.update({status: CartItem::STATUS_IN_CART, 
+      session_id: session['session_id'],
+      quantity: params['quantity'].to_i})
 
     render inline:
       "<%=        
