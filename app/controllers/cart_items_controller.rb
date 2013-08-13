@@ -33,10 +33,7 @@ class CartItemsController < ApplicationController
       status = CartItem::STATUS_IN_CART
       if(params['quantity'].to_i <= 0) then status = CartItem::STATUS_DELETED end
       @new_item.update({status: status, quantity: params['quantity'].to_i})
-      render inline:
-      "<%=        
-        @new_item.inspect
-      %>"
+      redirect_to(:back)
     end
 
   end
