@@ -24,22 +24,18 @@ class CartItemsController < ApplicationController
   # POST /cart_items
   # POST /cart_items.json
   def create
-    @new_item = nil
 
-    if(current_user)
-      @new_item = current_user.cart_items.find_or_create_by(product_id: params['product_id'])
+    if not user_signed_in?
+      flash[:message] = 'Please sign in or up to add items to your cart.'
+      redirect_to new_user_session_path
     else
-      @new_item = CartItem.find_or_create_by(session_id: session['session_id'], product_id: params['product_id'])
-    end
-
-    @new_item.update({status: CartItem::STATUS_IN_CART, 
-      session_id: session['session_id'],
-      quantity: params['quantity'].to_i})
-
-    render inline:
+      @new_item = current_user.cart_items.find_or_create_by(product_id: params['product_id'])
+      @new_item.update({status: CartItem::STATUS_IN_CART, quantity: params['quantity'].to_i})
+      render inline:
       "<%=        
         @new_item.inspect
       %>"
+    end
   end
 
   # PATCH/PUT /cart_items/1
