@@ -1,6 +1,7 @@
 <h1>Listing products</h1>
 
 <% if user_signed_in? %>
+    <h4>quantinty in cart: <%= @user.cart_items.where(status: CartItem::STATUS_IN_CART).count %> </h4>
   <li>
     currently logged in as <%= @user.email %>
     <%= link_to('logout', destroy_user_session_path, :method => :delete) %>
@@ -41,11 +42,15 @@
     <td><%= product.description %></td>
     <td><%= product.expires %></td>
     <td>
-    <%= form_tag('cart_items', method: 'create') do %>
-        <%= hidden_field_tag(:product_id, product.id) %>
-        <%= label_tag(:quanity, 'quantity:') %>
-        <%= text_field_tag(:quantity, '1') %>
-        <%= submit_tag('add') %>
+    <% if( user_signed_in?) %>
+        <%= form_tag('cart_items', method: 'create') do %>
+            <%= hidden_field_tag(:product_id, product.id) %>
+            <%= label_tag(:quantity, 'quantity:') %>
+            <% quantity = @user.cart_items.find_by product_id: product.id %>
+            <% if quantity then quantity = quantity.quantity else quantity = 1 end %>
+            <%= text_field_tag(:quantity, quantity) %>
+            <%= submit_tag('add') %>
+        <% end %>
     <% end %>
     </td>
   </tr>

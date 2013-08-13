@@ -30,12 +30,15 @@ class CartItemsController < ApplicationController
       redirect_to new_user_session_path
     else
       @new_item = current_user.cart_items.find_or_create_by(product_id: params['product_id'])
-      @new_item.update({status: CartItem::STATUS_IN_CART, quantity: params['quantity'].to_i})
+      status = CartItem::STATUS_IN_CART
+      if(params['quantity'].to_i <= 0) then status = CartItem::STATUS_DELETED end
+      @new_item.update({status: status, quantity: params['quantity'].to_i})
       render inline:
       "<%=        
         @new_item.inspect
       %>"
     end
+
   end
 
   # PATCH/PUT /cart_items/1
